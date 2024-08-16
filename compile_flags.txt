@@ -1,0 +1,16 @@
+-include cstdint
+-I/opt/homebrew/Cellar/sfml/2.6.1/include
+-I/opt/homebrew/include/
+-I/usr/include/
+-I/usr/local/include/
+-I./vendor/spdlog/include
+-I./src/
+-I./src/Core
+-I./src/MacOs
+-I./src/Debug
+-I./src/Events
+-I./src/Utils
+-I./src/SFML
+-I./src/Renderer
+-std=c++20
+-xc++
