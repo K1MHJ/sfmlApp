@@ -31,6 +31,7 @@ SRC := $(SRC) ./Core/Application.cpp ./Core/Layer.cpp ./Core/LayerStack.cpp ./Co
 SRC := $(SRC) ./MacOs/MacOsWindow.cpp ./MacOs/MacOsInput.cpp ./MacOs/MacOsPlatformUtils.cpp
 SRC := $(SRC) ./SFML/SfmlContext.cpp ./SFML/SfmlRendererAPI.cpp
 SRC := $(SRC) ./Renderer/GraphicsContext.cpp ./Renderer/RenderCommand.cpp ./Renderer/Renderer.cpp ./Renderer/RendererAPI.cpp
+SRC := $(SRC) ./Renderer/Renderer2D.cpp
 SRC := $(SRC)
 
 OBJS  := $(addprefix $(OBJDIR)/, $(SRC:.cpp=.o)) 
