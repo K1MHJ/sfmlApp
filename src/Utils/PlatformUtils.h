@@ -10,5 +10,5 @@ public:
 
 class Time {
 public:
-  static float GetTime();
+  static uint64_t GetTime();
 };

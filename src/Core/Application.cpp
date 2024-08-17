@@ -73,10 +73,9 @@ void Application::Run() {
   while (m_Running) {
     PROFILE_SCOPE("RunLoop");
 
-    float time = Time::GetTime();
+    uint64_t time = Time::GetTime();
     Timestep timestep = time - m_LastFrameTime;
     m_LastFrameTime = time;
-
     ExecuteMainThreadQueue();
 
     if (!m_Minimized) {

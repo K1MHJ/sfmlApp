@@ -1,8 +1,17 @@
-#include "pch.h"
 #include "Core/Application.h"
 #include "Utils/PlatformUtils.h"
+#include "pch.h"
+#include <chrono>
 
-float Time::GetTime() { return 0; }
+using namespace std::chrono;
+
+uint64_t Time::GetTime() {
+  uint64_t ms =
+      duration_cast<milliseconds>(system_clock::now().time_since_epoch())
+          .count();
+  //uint64_t sec = duration_cast<seconds>(system_clock::now().time_since_epoch()).count();
+  return ms;
+}
 
 std::string FileDialogs::OpenFile(const char *filter) {
   // OPENFILENAMEA ofn;

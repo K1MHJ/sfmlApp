@@ -62,7 +62,7 @@ private:
   bool m_Running = true;
   bool m_Minimized = false;
   LayerStack m_LayerStack;
-  float m_LastFrameTime = 0.0f;
+  uint64_t m_LastFrameTime = 0;
 
   std::vector<std::function<void()>> m_MainThreadQueue;
   std::mutex m_MainThreadQueueMutex;

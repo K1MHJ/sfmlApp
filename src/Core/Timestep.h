@@ -2,13 +2,13 @@
 
 class Timestep {
 public:
-  Timestep(float time = 0.0f) : m_Time(time) {}
+  Timestep(uint64_t time_msec = 0.0f) : m_Time_msec(time_msec) {}
 
-  operator float() const { return m_Time; }
+  operator uint64_t() const { return m_Time_msec; }
 
-  float GetSeconds() const { return m_Time; }
-  float GetMilliseconds() const { return m_Time * 1000.0f; }
+  uint64_t GetSeconds() const { return m_Time_msec / 1000; }
+  uint64_t GetMilliseconds() const { return m_Time_msec; }
 
 private:
-  float m_Time;
+  uint64_t m_Time_msec;
 };
