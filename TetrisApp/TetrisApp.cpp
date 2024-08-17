@@ -17,8 +17,8 @@ public:
 Application* CreateApplication(ApplicationCommandLineArgs args)
 {
   ApplicationSpecification spec;
-  spec.Name = "SfmlApp";
-  spec.WorkingDirectory = "./bin";
+  spec.Name = "TetrisApp";
+  spec.WorkingDirectory = "";
   spec.CommandLineArgs = args;
 
   return new TetrisApp(spec);
