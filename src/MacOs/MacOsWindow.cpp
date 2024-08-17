@@ -3,6 +3,8 @@
 #include "Events/ApplicationEvent.h"
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
+#include <SFML/Window/Keyboard.hpp>
+
 #include "pch.h"
 
 static uint8_t s_GLFWWindowCount = 0;
@@ -47,15 +49,20 @@ void MacOsWindow::Shutdown() {
 void MacOsWindow::OnUpdate() {
   PROFILE_FUNCTION();
   if (m_window.isOpen()) {
-    if (m_window.pollEvent(m_event)) {
+    if (m_window.waitEvent(m_event)) {
       switch (m_event.type) {
       case sf::Event::Closed: {
         WindowCloseEvent event;
         m_Data.EventCallback(event);
       } break;
       case sf::Event::KeyPressed: {
-        KeyPressedEvent event(m_event.key.scancode, 0);
-        m_Data.EventCallback(event);
+        if(m_event.key.scancode == sf::Keyboard::Scancode::Escape){
+          WindowCloseEvent event;
+          m_Data.EventCallback(event);
+        }else{
+          KeyPressedEvent event(m_event.key.scancode, 0);
+          m_Data.EventCallback(event);
+        }
       } break;
       case sf::Event::KeyReleased: {
         KeyReleasedEvent event(m_event.key.scancode);

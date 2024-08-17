@@ -2,6 +2,7 @@
 
 #include "SfmlPF.h"
 #include <SFML/Graphics.hpp>
+#include <Events/KeyEvent.h>
 
 class MyLayer : public Layer {
 public:
@@ -17,4 +18,9 @@ public:
 
 private:
   sf::RenderWindow* m_window;
+  bool OnKeyPressed(KeyPressedEvent &e);
+
+
+private:
+  float x,y;
 };

@@ -69,7 +69,7 @@ void Application::OnEvent(Event &e) {
 
 void Application::Run() {
   PROFILE_FUNCTION();
-
+  static uint32_t runcnt = 0;
   while (m_Running) {
     PROFILE_SCOPE("RunLoop");
 
@@ -82,7 +82,6 @@ void Application::Run() {
     if (!m_Minimized) {
       {
         PROFILE_SCOPE("LayerStack OnUpdate");
-
         for (Layer *layer : m_LayerStack)
           layer->OnUpdate(timestep);
       }
