@@ -1,4 +1,4 @@
-.PHONY: all run
+.HONY: all run
 CC := clang
 CXX := clang++
 LD := clang++
@@ -28,7 +28,8 @@ PCH_OUT := $(OBJDIR)/pch.gch
 PCH_SRC := $(SRCDIR)/pch.cpp
 PCH_HEADERS := $(SRCDIR)/pch.h
 
-SRC := ./TetrisApp.cpp ./TopLayer.cpp
+SRC := ./block.cpp ./colors.cpp ./grid.cpp ./position.cpp
+SRC := $(SRC) ./TetrisApp.cpp ./TopLayer.cpp
 SRC := $(SRC) ./Core/Application.cpp ./Core/Layer.cpp ./Core/LayerStack.cpp ./Core/Log.cpp ./Core/Window.cpp
 SRC := $(SRC) ./MacOs/MacOsWindow.cpp ./MacOs/MacOsInput.cpp ./MacOs/MacOsPlatformUtils.cpp
 SRC := $(SRC) ./SFML/SfmlContext.cpp ./SFML/SfmlRendererAPI.cpp

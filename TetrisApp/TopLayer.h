@@ -4,6 +4,9 @@
 #include <Events/KeyEvent.h>
 #include <SFML/Graphics.hpp>
 
+#include "grid.h"
+#include "blocks.cpp"
+
 class TopLayer : public Layer {
 public:
   TopLayer();
@@ -19,7 +22,24 @@ public:
 private:
   sf::RenderWindow *m_window;
   bool OnKeyPressed(KeyPressedEvent &e);
-
+  bool OnAppUpdate(AppUpdateEvent &e);
 private:
-  float x, y;
+  void MoveBlockRight();
+  void MoveBlockLeft();
+  void MoveBlockDown();
+  void RotateBlock();
+
+  Block GetRandomBlock();
+  std::vector<Block> GetAllBlocks();
+  bool IsBlockOutside();
+  void LockBlock();
+  bool BlockFits();
+  void Reset();
+  Grid grid;
+  std::vector<Block> blocks;
+  Block currentBlock;
+  Block nextBlock;
+  
+  bool gameOver;
+  uint64_t m_LastUpdateTime;
 };

@@ -18,7 +18,8 @@ Application::Application(const ApplicationSpecification &specification)
   if (!m_Specification.WorkingDirectory.empty())
     std::filesystem::current_path(m_Specification.WorkingDirectory);
 
-  m_Window = Window::Create(WindowProps(m_Specification.Name));
+  m_Window = Window::Create(WindowProps(
+      m_Specification.Name, m_Specification.Width, m_Specification.Height));
   m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
 
   Renderer::Init();
@@ -88,7 +89,6 @@ void Application::Run() {
     m_Window->OnUpdate();
   }
 }
-
 bool Application::OnWindowClose(WindowCloseEvent &e) {
   m_Running = false;
   return true;

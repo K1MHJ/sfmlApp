@@ -53,3 +53,11 @@ public:
   EVENT_CLASS_TYPE(AppRender)
   EVENT_CLASS_CATEGORY(EventCategoryApplication)
 };
+
+class AppTimerEvent : public Event {
+public:
+  AppTimerEvent() = default;
+
+  EVENT_CLASS_TYPE(AppTimer)
+  EVENT_CLASS_CATEGORY(EventCategoryApplication)
+};

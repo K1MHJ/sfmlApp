@@ -26,7 +26,7 @@ public:
 private:
   virtual void Init(const WindowProps &props);
   virtual void Shutdown();
-
+  void OnTimer();
 private:
   sf::RenderWindow m_window;
   sf::Event m_event;

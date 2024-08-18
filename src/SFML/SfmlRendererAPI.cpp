@@ -2,9 +2,7 @@
 #include "pch.h"
 #include <SFML/Graphics.hpp>
 
-SFMLRendererAPI::SFMLRendererAPI() {
-  CORE_ASSERT(windowHandle, "Window handle is null");
-}
+SFMLRendererAPI::SFMLRendererAPI() {}
 
 void SFMLRendererAPI::Init() {}
 
@@ -16,7 +14,12 @@ void SFMLRendererAPI::SetClearColor(uint8_t red, uint8_t green, uint8_t blue) {
   m_green = green;
   m_blue = blue;
 }
-
+void SFMLRendererAPI::GetClearColor(uint8_t &red, uint8_t &green,
+                                    uint8_t &blue) {
+  red = m_red;
+  green = m_green;
+  blue = m_blue;
+}
 void SFMLRendererAPI::Clear() {}
 
 // void SFMLRendererAPI::DrawIndexed(const Ref<VertexArray>& vertexArray,

@@ -24,7 +24,8 @@ enum class EventType {
   MouseButtonPressed,
   MouseButtonReleased,
   MouseMoved,
-  MouseScrolled
+  MouseScrolled,
+  AppTimer
 };
 
 enum EventCategory {

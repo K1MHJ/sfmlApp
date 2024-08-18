@@ -24,10 +24,6 @@ void Renderer::BeginScene()
 {
   //s_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
 }
-
 void Renderer::EndScene()
 {
 }
-
-
-

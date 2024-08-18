@@ -48,8 +48,9 @@ void MacOsWindow::Shutdown() {
 
 void MacOsWindow::OnUpdate() {
   PROFILE_FUNCTION();
+  
   if (m_window.isOpen()) {
-    if (m_window.waitEvent(m_event)) {
+    if (m_window.pollEvent(m_event)) {
       switch (m_event.type) {
       case sf::Event::Closed: {
         WindowCloseEvent event;
@@ -122,3 +123,8 @@ void MacOsWindow::SetVSync(bool enabled) {
 }
 
 bool MacOsWindow::IsVSync() const { return m_Data.VSync; }
+
+void MacOsWindow::OnTimer()
+{
+
+}

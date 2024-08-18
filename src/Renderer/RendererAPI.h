@@ -13,6 +13,7 @@ public:
   virtual void SetViewport(uint32_t x, uint32_t y, uint32_t width,
                            uint32_t height) = 0;
   virtual void SetClearColor(uint8_t red, uint8_t green, uint8_t blue) = 0;
+  virtual void GetClearColor(uint8_t& red, uint8_t& green, uint8_t& blue) = 0;
   virtual void Clear() = 0;
 
   virtual void SetLineWidth(float width) = 0;

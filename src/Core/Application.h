@@ -28,6 +28,8 @@ struct ApplicationSpecification
   std::string Name = "Hazel Application";
   std::string WorkingDirectory;
   ApplicationCommandLineArgs CommandLineArgs;
+  uint32_t Width;
+  uint32_t Height;
 };
 
 class Application

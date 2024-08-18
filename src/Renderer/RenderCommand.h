@@ -20,6 +20,11 @@ public:
     s_RendererAPI->SetClearColor(red, green, blue);
   }
 
+  static void GetClearColor(uint8_t& red, uint8_t& green, uint8_t& blue)
+  {
+    s_RendererAPI->GetClearColor(red, green, blue);
+  }
+
   static void Clear()
   {
     s_RendererAPI->Clear();
