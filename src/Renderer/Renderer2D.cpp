@@ -34,6 +34,7 @@ void Renderer2D::EndScene() {
   for (auto it = s_Data.shapes.begin(); it != s_Data.shapes.end(); it++) {
     s_window->draw(**it);
   }
+  s_window->display();
 }
 void Renderer2D::Clear(uint8_t red, uint8_t green, uint8_t blue) {
   s_window->clear(sf::Color{red, green, blue, 255});

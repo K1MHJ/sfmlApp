@@ -111,7 +111,7 @@ void MacOsWindow::OnUpdate() {
       default:
         break;
       }
-      m_Context->SwapBuffers();
+      //m_Context->SwapBuffers();
     }
   }
 }

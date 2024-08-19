@@ -64,20 +64,21 @@ void TopLayer::OnDetach() { PROFILE_FUNCTION(); }
 
 void TopLayer::OnUpdate(Timestep ts) {
   PROFILE_FUNCTION();
-  uint64_t time = Time::GetTime();
-  Timestep timestep = time - m_LastUpdateTime;
-  if (timestep.GetMilliseconds() > 2000) {
-    AppUpdateEvent e;
-    // Application::Get().OnEvent(e);
-    m_LastUpdateTime = time;
+  m_Time[0] += ts.GetMilliseconds();
+  m_Time[1] += ts.GetMilliseconds();
+  if (m_Time[0] > 30) {
+    m_Time[0] = m_Time[0] % 30;
+    Renderer2D::Clear(0, 0, 0);
     Renderer2D::BeginScene();
     grid.Draw();
     currentBlock.Draw(11, 11);
     nextBlock.Draw(270, 270);
     Renderer2D::EndScene();
-
-    CORE_INFO("'{0}', '{1}'", currentBlock.rowOffset,
-              currentBlock.columnOffset);
+  }
+  if (m_Time[1] > 1000) {
+    m_Time[1] = m_Time[1] % 1000;
+    AppUpdateEvent e;
+    Application::Get().OnEvent(e);
   }
 }
 

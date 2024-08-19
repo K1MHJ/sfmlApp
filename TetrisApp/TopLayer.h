@@ -42,4 +42,5 @@ private:
   
   bool gameOver;
   uint64_t m_LastUpdateTime;
+  uint64_t m_Time[2];
 };
