@@ -43,9 +43,14 @@ bool TopLayer::OnKeyPressed(KeyPressedEvent &e) {
     break;
   case sf::Keyboard::W:
     RotateBlock();
+    break;
   case sf::Keyboard::S:
     MoveBlockDown();
     m_Time[1] = 0;
+    break;
+  case sf::Keyboard::R:
+    gameOver = false;
+    Reset();
     break;
   }
   return true;
@@ -59,6 +64,7 @@ void TopLayer::OnAttach() {
   Reset();
   CORE_INFO("Attach");
   Renderer2D::Clear(0, 0, 0);
+  m_bot.Init();
 }
 
 void TopLayer::OnDetach() { PROFILE_FUNCTION(); }
@@ -67,6 +73,9 @@ void TopLayer::OnUpdate(Timestep ts) {
   PROFILE_FUNCTION();
   m_Time[0] += ts.GetMilliseconds();
   m_Time[1] += ts.GetMilliseconds();
+  if (gameOver) {
+    m_bot.GameOver();
+  }
   if (m_Time[0] > 30) {
     m_Time[0] = m_Time[0] % 30;
     Renderer2D::Clear(0, 0, 0);
@@ -74,12 +83,19 @@ void TopLayer::OnUpdate(Timestep ts) {
     grid.Draw();
     currentBlock.Draw(11, 11);
     nextBlock.Draw(270, 270);
+    m_bot.OnRender();
+    if(gameOver){
+      Renderer2D::DrawText("GAME OVER");
+    }
     Renderer2D::EndScene();
   }
   if (m_Time[1] > 1000) {
     m_Time[1] = m_Time[1] % 1000;
-    AppUpdateEvent e;
-    Application::Get().OnEvent(e);
+    if (!gameOver) {
+      m_bot.OnUpdate(ts);
+      AppUpdateEvent e;
+      Application::Get().OnEvent(e);
+    }
   }
 }
 

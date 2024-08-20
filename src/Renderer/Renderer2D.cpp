@@ -4,18 +4,24 @@
 #include "SfmlPF.h"
 #include "pch.h"
 #include <SFML/Graphics.hpp>
-
 struct Renderer2DData {
   std::vector<sf::Shape *> shapes;
+  std::vector<sf::Text *> texts;
 };
 static Renderer2DData s_Data;
 static sf::RenderWindow *s_window;
+static sf::Font s_font;
 
 static uint8_t s_bkgRed;
 static uint8_t s_bkgGreen;
 static uint8_t s_bkgBlue;
 
-void Renderer2D::Init(sf::RenderWindow *window) { s_window = window; }
+void Renderer2D::Init(sf::RenderWindow *window) {
+  s_window = window;
+  if (!s_font.loadFromFile("../assets/fonts/opensans/OpenSans-Regular.ttf")) {
+    assert(false);
+  }
+}
 void Renderer2D::Shutdown() {
   for (auto &it : s_Data.shapes) {
     delete it;
@@ -28,10 +34,18 @@ void Renderer2D::BeginScene() {
     delete it;
     it = nullptr;
   }
+  for (auto &it : s_Data.texts) {
+    delete it;
+    it = nullptr;
+  }
   s_Data.shapes.clear();
+  s_Data.texts.clear();
 }
 void Renderer2D::EndScene() {
   for (auto it = s_Data.shapes.begin(); it != s_Data.shapes.end(); it++) {
+    s_window->draw(**it);
+  }
+  for (auto it = s_Data.texts.begin(); it != s_Data.texts.end(); it++) {
     s_window->draw(**it);
   }
   s_window->display();
@@ -61,4 +75,14 @@ void Renderer2D::DrawFillRectangle(float x, float y, float cx, float cy,
   shape->setPosition(x, y);
   shape->setFillColor(sf::Color(clr.red, clr.green, clr.blue));
   s_Data.shapes.push_back(shape);
+}
+void Renderer2D::DrawText(const char *str) {
+  sf::Text *text = new sf::Text();
+  text->setPosition(10,10);
+  text->setFont(s_font);
+  text->setString(str);
+  text->setCharacterSize(60);
+  text->setFillColor(sf::Color::Red);
+  text->setStyle(sf::Text::Bold);
+  s_Data.texts.push_back(text);
 }

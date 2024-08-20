@@ -7,6 +7,8 @@
 #include "grid.h"
 #include "blocks.cpp"
 
+#include "bot.h"
+
 class TopLayer : public Layer {
 public:
   TopLayer();
@@ -43,4 +45,6 @@ private:
   bool gameOver;
   uint64_t m_LastUpdateTime;
   uint64_t m_Time[2];
+
+  Bot m_bot;
 };

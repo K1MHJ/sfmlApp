@@ -28,7 +28,7 @@ PCH_OUT := $(OBJDIR)/pch.gch
 PCH_SRC := $(SRCDIR)/pch.cpp
 PCH_HEADERS := $(SRCDIR)/pch.h
 
-SRC := ./block.cpp ./colors.cpp ./grid.cpp ./position.cpp
+SRC := ./block.cpp ./colors.cpp ./grid.cpp ./position.cpp ./bot.cpp
 SRC := $(SRC) ./TetrisBotApp.cpp ./TopLayer.cpp
 SRC := $(SRC) ./Core/Application.cpp ./Core/Layer.cpp ./Core/LayerStack.cpp ./Core/Log.cpp ./Core/Window.cpp
 SRC := $(SRC) ./MacOs/MacOsWindow.cpp ./MacOs/MacOsInput.cpp ./MacOs/MacOsPlatformUtils.cpp
