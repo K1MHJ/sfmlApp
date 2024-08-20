@@ -92,7 +92,20 @@ void TopLayer::OnUpdate(Timestep ts) {
   if (m_Time[1] > 1000) {
     m_Time[1] = m_Time[1] % 1000;
     if (!gameOver) {
-      m_bot.OnUpdate(ts);
+      int order = m_bot.Order((const Grid&)grid, currentBlock, (const Block&)nextBlock);
+      switch(order){
+        case 0:
+        break;
+        case 1:
+          MoveBlockRight();
+        break;
+        case 2:
+          MoveBlockLeft();
+        break;
+        case 3:
+          RotateBlock();
+        break;
+      }
       AppUpdateEvent e;
       Application::Get().OnEvent(e);
     }
