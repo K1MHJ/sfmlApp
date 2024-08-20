@@ -45,6 +45,7 @@ bool TopLayer::OnKeyPressed(KeyPressedEvent &e) {
     RotateBlock();
   case sf::Keyboard::S:
     MoveBlockDown();
+    m_Time[1] = 0;
     break;
   }
   return true;
