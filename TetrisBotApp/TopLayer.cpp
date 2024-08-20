@@ -84,7 +84,17 @@ void TopLayer::OnUpdate(Timestep ts) {
     currentBlock.Draw(11, 11);
     nextBlock.Draw(270, 270);
     m_bot.OnRender();
-    if(gameOver){
+
+    forcastBlock = currentBlock;
+    forcastBlock.id = 8;
+    forcastBlock.Move(1, 0);
+    while (!(IsBlockOutside(forcastBlock) || BlockFits(forcastBlock) == false)) {
+      forcastBlock.Move(1, 0);
+    }
+    forcastBlock.Move(-1, 0);
+    forcastBlock.Draw(11,11);
+
+    if (gameOver) {
       Renderer2D::DrawText("GAME OVER");
     }
     Renderer2D::EndScene();
@@ -92,22 +102,24 @@ void TopLayer::OnUpdate(Timestep ts) {
   if (m_Time[1] > 1000) {
     m_Time[1] = m_Time[1] % 1000;
     if (!gameOver) {
-      int order = m_bot.Order((const Grid&)grid, currentBlock, (const Block&)nextBlock);
-      switch(order){
-        case 0:
-        break;
-        case 1:
-          MoveBlockRight();
-        break;
-        case 2:
-          MoveBlockLeft();
-        break;
-        case 3:
-          RotateBlock();
-        break;
-      }
       AppUpdateEvent e;
       Application::Get().OnEvent(e);
+      int order = 0;
+      // order = m_bot.Order((const Grid &)grid, currentBlock,
+      //                         (const Block &)nextBlock);
+      switch (order) {
+      case 0:
+        break;
+      case 1:
+        MoveBlockRight();
+        break;
+      case 2:
+        MoveBlockLeft();
+        break;
+      case 3:
+        RotateBlock();
+        break;
+      }
     }
   }
 }
@@ -156,6 +168,15 @@ bool TopLayer::IsBlockOutside() {
   return false;
 }
 
+bool TopLayer::IsBlockOutside(Block& block) {
+  std::vector<Position> tiles = block.GetCellPositions();
+  for (Position item : tiles) {
+    if (grid.IsCellOutside(item.row, item.column)) {
+      return true;
+    }
+  }
+  return false;
+}
 void TopLayer::RotateBlock() {
   if (!gameOver) {
     currentBlock.Rotate();
@@ -194,6 +215,15 @@ bool TopLayer::BlockFits() {
   return true;
 }
 
+bool TopLayer::BlockFits(Block& block) {
+  std::vector<Position> tiles = block.GetCellPositions();
+  for (Position item : tiles) {
+    if (grid.IsCellEmpty(item.row, item.column) == false) {
+      return false;
+    }
+  }
+  return true;
+}
 void TopLayer::Reset() {
   grid.Initialize();
   blocks = GetAllBlocks();

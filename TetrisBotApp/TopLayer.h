@@ -34,12 +34,15 @@ private:
   Block GetRandomBlock();
   std::vector<Block> GetAllBlocks();
   bool IsBlockOutside();
-  void LockBlock();
+  bool IsBlockOutside(Block& block);
   bool BlockFits();
+  bool BlockFits(Block& block);
+  void LockBlock();
   void Reset();
   Grid grid;
   std::vector<Block> blocks;
   Block currentBlock;
+  Block forcastBlock;
   Block nextBlock;
   
   bool gameOver;

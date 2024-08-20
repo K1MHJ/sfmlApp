@@ -78,7 +78,7 @@ void Renderer2D::DrawFillRectangle(float x, float y, float cx, float cy,
 }
 void Renderer2D::DrawText(const char *str) {
   sf::Text *text = new sf::Text();
-  text->setPosition(10,10);
+  text->setPosition(10, 10);
   text->setFont(s_font);
   text->setString(str);
   text->setCharacterSize(60);

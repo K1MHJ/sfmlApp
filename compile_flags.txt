@@ -12,5 +12,6 @@
 -I./src/Utils
 -I./src/SFML
 -I./src/Renderer
+-I./TetrisBotApp/
 -std=c++20
 -xc++

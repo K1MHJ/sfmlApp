@@ -16,4 +16,10 @@ public:
   void GameOver();
 private:
   bool gameOver;
+  bool BlockFits(Block& block);
+  bool IsBlockOutside(Block &block);
+  Grid m_grid;
+  Block m_curBlock;
+  Block m_forcastBlock;
+  Block m_nextBlock;
 };
