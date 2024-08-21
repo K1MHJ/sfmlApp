@@ -89,8 +89,8 @@ void TopLayer::OnUpdate(Timestep ts) {
     }
     Renderer2D::EndScene();
   }
-  if (m_Time[1] > 100) {
-    m_Time[1] = m_Time[1] % 100;
+  if (m_Time[1] > 50) {
+    m_Time[1] = m_Time[1] % 50;
     if (!gameOver) {
       AppUpdateEvent e;
       Application::Get().OnEvent(e);

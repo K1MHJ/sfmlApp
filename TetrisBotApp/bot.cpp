@@ -46,18 +46,18 @@ int Bot::Order(const Grid &_grid, Block &_curBlock, const Block &_nextBlock,
       m_lastCountUsedBlock = usedBlockCnt;
       m_grid = _grid;
       SearchBestPlace(_grid, _curBlock, m_bestRotState, m_bestColOffset);
-      CORE_INFO("BEST: '{0}', '{1}'", m_bestColOffset, m_bestRotState);
+      //CORE_INFO("BEST: '{0}', '{1}'", m_bestColOffset, m_bestRotState);
     }
     if (m_bestRotState != _curBlock.RotationState()) {
-      CORE_INFO("Rotate");
+      //CORE_INFO("Rotate");
       return 3;
     } else {
       if (m_bestColOffset != _curBlock.ColumnOffset()) {
         if (m_bestColOffset < _curBlock.ColumnOffset()) {
-          CORE_INFO("Left");
+          //CORE_INFO("Left");
           return 2;
         } else {
-          CORE_INFO("Right");
+          //CORE_INFO("Right");
           return 1;
         }
       }
@@ -113,22 +113,21 @@ bool Bot::SearchBestPlace(const Grid &_grid, const Block &_curBlock,
       bottomBlk.Move(-1, 0);
 
       std::vector<Position> tiles = bottomBlk.GetCellPositions();
-      std::map<int, int> blockoccupiedrow;
+      int min_row = _grid.Row();
       for (Position item : tiles) {
-        if (!blockoccupiedrow.contains(item.row)) {
-          blockoccupiedrow[item.row] = 0;
+        if(min_row > item.row){
+          min_row = item.row;
         }
-        blockoccupiedrow[item.row]++;
       }
       int emptycnt = 0;
-      for (const auto &it : blockoccupiedrow) {
+      for (int i = min_row; i < _grid.Row();++i) {
         for (int c = 0; c < _grid.Column(); c++) {
-          if (_grid.IsCellEmpty(it.first, c)) {
+          if (_grid.IsCellEmpty(i, c)) {
             emptycnt++;
           }
         }
-        emptycnt -= it.second;
       }
+      emptycnt -= tiles.size();
       if (emptycnt < MIN_EMPTY) {
         MIN_EMPTY = emptycnt;
         best_coloffset = rblk.ColumnOffset();
