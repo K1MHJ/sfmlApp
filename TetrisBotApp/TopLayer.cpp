@@ -84,29 +84,19 @@ void TopLayer::OnUpdate(Timestep ts) {
     currentBlock.Draw(11, 11);
     nextBlock.Draw(270, 270);
     m_bot.OnRender();
-
-    forcastBlock = currentBlock;
-    forcastBlock.id = 8;
-    forcastBlock.Move(1, 0);
-    while (!(IsBlockOutside(forcastBlock) || BlockFits(forcastBlock) == false)) {
-      forcastBlock.Move(1, 0);
-    }
-    forcastBlock.Move(-1, 0);
-    forcastBlock.Draw(11,11);
-
     if (gameOver) {
       Renderer2D::DrawText("GAME OVER");
     }
     Renderer2D::EndScene();
   }
-  if (m_Time[1] > 1000) {
-    m_Time[1] = m_Time[1] % 1000;
+  if (m_Time[1] > 100) {
+    m_Time[1] = m_Time[1] % 100;
     if (!gameOver) {
       AppUpdateEvent e;
       Application::Get().OnEvent(e);
       int order = 0;
-      // order = m_bot.Order((const Grid &)grid, currentBlock,
-      //                         (const Block &)nextBlock);
+      order = m_bot.Order((const Grid &)grid, currentBlock,
+                          (const Block &)nextBlock, m_count_used_block);
       switch (order) {
       case 0:
         break;
@@ -168,7 +158,7 @@ bool TopLayer::IsBlockOutside() {
   return false;
 }
 
-bool TopLayer::IsBlockOutside(Block& block) {
+bool TopLayer::IsBlockOutside(Block &block) {
   std::vector<Position> tiles = block.GetCellPositions();
   for (Position item : tiles) {
     if (grid.IsCellOutside(item.row, item.column)) {
@@ -194,6 +184,7 @@ void TopLayer::LockBlock() {
     grid.grid[item.row][item.column] = currentBlock.id;
   }
   currentBlock = nextBlock;
+  m_count_used_block++;
   if (BlockFits() == false) {
     gameOver = true;
   }
@@ -215,7 +206,7 @@ bool TopLayer::BlockFits() {
   return true;
 }
 
-bool TopLayer::BlockFits(Block& block) {
+bool TopLayer::BlockFits(Block &block) {
   std::vector<Position> tiles = block.GetCellPositions();
   for (Position item : tiles) {
     if (grid.IsCellEmpty(item.row, item.column) == false) {
@@ -229,4 +220,5 @@ void TopLayer::Reset() {
   blocks = GetAllBlocks();
   currentBlock = GetRandomBlock();
   nextBlock = GetRandomBlock();
+  m_count_used_block = 1;
 }

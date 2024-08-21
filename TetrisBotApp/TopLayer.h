@@ -42,7 +42,6 @@ private:
   Grid grid;
   std::vector<Block> blocks;
   Block currentBlock;
-  Block forcastBlock;
   Block nextBlock;
   
   bool gameOver;
@@ -50,4 +49,5 @@ private:
   uint64_t m_Time[2];
 
   Bot m_bot;
+  int m_count_used_block;
 };

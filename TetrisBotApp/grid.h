@@ -7,11 +7,12 @@ public:
   Grid();
   ~Grid();
   void Initialize();
-  void Draw();
-  bool IsCellOutside(int row, int column);
-  bool IsCellEmpty(int row, int column);
+  void Draw()const;
+  bool IsCellOutside(int row, int column) const;
+  bool IsCellEmpty(int row, int column) const;
   int ClearFullRows();
-
+  int Row() const{return numRows;}
+  int Column() const{return numCols;}
   int grid[20][10];
 
 private:

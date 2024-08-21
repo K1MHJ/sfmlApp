@@ -18,7 +18,7 @@ void Grid::Initialize() {
     }
   }
 }
-void Grid::Draw() {
+void Grid::Draw() const {
   for (int row = 0; row < numRows; ++row) {
     for (int col = 0; col < numCols; ++col) {
       int cellValue = grid[row][col];
@@ -29,14 +29,14 @@ void Grid::Draw() {
   }
 }
 
-bool Grid::IsCellOutside(int row, int column) {
+bool Grid::IsCellOutside(int row, int column) const {
   if (row >= 0 && row < numRows && column >= 0 && column < numCols) {
     return false;
   }
   return true;
 }
 
-bool Grid::IsCellEmpty(int row, int column) {
+bool Grid::IsCellEmpty(int row, int column) const {
   if (grid[row][column] == 0) {
     return true;
   }
