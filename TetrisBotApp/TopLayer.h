@@ -3,7 +3,7 @@
 #include "SfmlPF.h"
 #include <Events/KeyEvent.h>
 #include <SFML/Graphics.hpp>
-
+#include <random>
 #include "grid.h"
 #include "blocks.cpp"
 
@@ -50,4 +50,6 @@ private:
 
   Bot m_bot;
   int m_count_used_block;
+  std::mt19937 m_mt_for_block;
+  char m_text[256];
 };

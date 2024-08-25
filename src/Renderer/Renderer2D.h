@@ -17,6 +17,6 @@ public:
                                 const Color &clr, float thickness = 1.0f);
   static void DrawFillRectangle(float x, float y, float cx, float cy,
                                 const Color &clr);
-  static void DrawText(const char* text);
+  static void DrawText(const char* text, float x, float y, int textSize, const sf::Color& color);
 private:
 };

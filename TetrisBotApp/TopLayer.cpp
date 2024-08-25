@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 
+
 TopLayer::TopLayer() : Layer("TopLayer") {
   grid = Grid();
   blocks = GetAllBlocks();
@@ -19,7 +20,7 @@ Block TopLayer::GetRandomBlock() {
   if (blocks.empty()) {
     blocks = GetAllBlocks();
   }
-  int randomIndex = rand() % blocks.size();
+  int randomIndex = m_mt_for_block() % blocks.size();
   Block block = blocks[randomIndex];
   blocks.erase(blocks.begin() + randomIndex);
   return block;
@@ -84,12 +85,14 @@ void TopLayer::OnUpdate(Timestep ts) {
     currentBlock.Draw(11, 11);
     nextBlock.Draw(270, 270);
     m_bot.OnRender();
+    snprintf(m_text,256,"Blocks : %d", m_count_used_block);
+    Renderer2D::DrawText(m_text, 330, 11, 30, sf::Color::Yellow);
     if (gameOver) {
-      Renderer2D::DrawText("GAME OVER");
+      Renderer2D::DrawText("GAME OVER", 130, 200, 60, sf::Color::Red);
     }
     Renderer2D::EndScene();
   }
-  if (m_Time[1] > 50) {
+  if (m_Time[1] > 5) {
     m_Time[1] = m_Time[1] % 50;
     if (!gameOver) {
       AppUpdateEvent e;
@@ -185,6 +188,9 @@ void TopLayer::LockBlock() {
   }
   currentBlock = nextBlock;
   m_count_used_block++;
+  if(m_count_used_block >= 20){
+    gameOver = true;
+  }
   if (BlockFits() == false) {
     gameOver = true;
   }

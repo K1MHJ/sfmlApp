@@ -76,13 +76,13 @@ void Renderer2D::DrawFillRectangle(float x, float y, float cx, float cy,
   shape->setFillColor(sf::Color(clr.red, clr.green, clr.blue));
   s_Data.shapes.push_back(shape);
 }
-void Renderer2D::DrawText(const char *str) {
+void Renderer2D::DrawText(const char *str, float x, float y, int textSize, const sf::Color& color) {
   sf::Text *text = new sf::Text();
-  text->setPosition(10, 10);
+  text->setPosition(x, y);
   text->setFont(s_font);
   text->setString(str);
-  text->setCharacterSize(60);
-  text->setFillColor(sf::Color::Red);
+  text->setCharacterSize(textSize);
+  text->setFillColor(color);
   text->setStyle(sf::Text::Bold);
   s_Data.texts.push_back(text);
 }

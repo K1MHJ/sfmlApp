@@ -4,7 +4,7 @@ CXX := clang++
 LD := clang++
 AR := ar
 RANLIB :=
-CFLAGS := -g -O0 -Wall -MP -MMD
+CFLAGS := -g -O3 -MP -MMD
 CXXFLAGS := $(CFLAGS) -std=c++20 -xc++
 APPSRCDIR := ./
 SRCDIR := ./../src/
