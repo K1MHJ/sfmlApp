@@ -57,12 +57,11 @@ std::vector<Block> Game::GetAllBlocks() {
 
 void Game::Draw() {
   grid.Draw();
-  currentBlock.Draw(1, 2);
+  currentBlock.Draw(2, 4);
 
   wattron(win, COLOR_PAIR(0));
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < 4; j++) {
-      // mvwdelch(win, 8+i , 33+j);
       mvwprintw(win, 8 + i, 33 + j, " ");
     }
   }
@@ -85,7 +84,7 @@ void Game::HandleInput() {
     gameOver = false;
     Reset();
   }
-  if (keyPressed != 0) {
+  if (!gameOver && keyPressed != 0) {
     switch (getchar()) {
     case 'a':
       MoveBlockLeft();
@@ -102,9 +101,10 @@ void Game::HandleInput() {
       break;
     case 'q':
       gameTerminate = true;
-      break;
+      return;
     }
   }
+  AutoDecision();
 }
 
 void Game::MoveBlockLeft() {
@@ -209,3 +209,4 @@ void Game::UpdateScore(int linesCleared, int moveDownPoints) {
 
   score += moveDownPoints;
 }
+void Game::AutoDecision() { MoveBlockRight(); }

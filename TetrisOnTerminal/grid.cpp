@@ -21,11 +21,23 @@ void Grid::Initialize() {
   }
 }
 void Grid::Draw() const {
+  for (int col = -1; col < numCols + 1; ++col) {
+    if (col != -1 && col != numCols) {
+      mvwprintw(win, 2, col + 2, "%d", col);
+    }
+    mvwprintw(win, 3, col + 2, "#");
+    mvwprintw(win, 4 + numRows, col + 2, "#");
+  }
+  for (int row = 0; row < numRows; ++row) {
+    mvwprintw(win, row + 4, 3 + numCols, "%d", row);
+    mvwprintw(win, row + 4, 1, "#");
+    mvwprintw(win, row + 4, 2 + numCols, "#");
+  }
   for (int row = 0; row < numRows; ++row) {
     for (int col = 0; col < numCols; ++col) {
       int cellValue = grid[row][col];
       wattron(win, COLOR_PAIR(10 + cellValue));
-      mvwprintw(win, row + 2, col + 1, " ");
+      mvwprintw(win, row + 4, col + 2, " ");
       wattroff(win, COLOR_PAIR(10 + cellValue));
     }
   }

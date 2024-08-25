@@ -5,7 +5,6 @@
 #include <termios.h>
 #include <unistd.h>
 
-#include "colors.h"
 #include "game.h"
 
 using std::cout;
@@ -61,33 +60,34 @@ int main() {
 
   wattron(win, COLOR(_WIN_BORDER));
   box(win, 0, 0);
-  wmove(win, 2, 1);     // set cursor
-  //whline(win, 'x', 10); // draw line from current cursor
+  //wmove(win, 2, 1); // set cursor
+  // whline(win, 'x', 10); // draw line from current cursor
   wattroff(win, COLOR(_WIN_BORDER));
   noecho();    // 입력한 문자 화면에 출력하지 않음
   curs_set(0); // 커서 숨김
-  mvwprintw(win, 1, 1, "Press any key to stop.");
+  mvwprintw(win, 1, 1, "Press Q key to stop.");
+
+  wattron(win, COLOR(_WIN_BORDER));
+  mvwprintw(win, 5, 30, "Score");
+  mvwprintw(win, 6, 30, "Next");
 
   lastUpdateTime = std::chrono::high_resolution_clock::now();
   Game game = Game();
   bool running = true;
   while (running) {
     game.HandleInput();
-    if(game.gameTerminate){
+    if (game.gameTerminate) {
       running = false;
     }
-    if (EventTriggered(1000)) {
-      game.MoveBlockDown();
-    }
-    wattron(win, COLOR(_WIN_BORDER));
-    mvwprintw(win, 5, 30, "Score");
-    mvwprintw(win, 6, 30, "Next");
     if (game.gameOver) {
       mvwprintw(win, 3, 30, "GAME OVER");
     }
+    if (EventTriggered(500)) {
+      game.MoveBlockDown();
+    }
     char scoreText[10];
-    sprintf(scoreText, "%d", game.score);
-    mvwprintw(win, 5, 40, scoreText);
+    snprintf(scoreText, 10, "%d", game.score);
+    mvwprintw(win, 5, 40, "%s", scoreText);
     game.Draw();
     wrefresh(win);
   }
