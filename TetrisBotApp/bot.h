@@ -21,6 +21,8 @@ private:
   bool IsBlockOutside(Block &block);
   bool SearchBestPlace(const Grid &_grid, const Block &_curBlock,
                        int &best_rotationState, int &best_colOffset);
+  std::vector<Block> GetBottomBlocks(const Grid &_grid, const Block &_curBlock);
+  std::vector<Position> GetLegalSidePosition(const Grid &_grid, Position pos);
   Grid m_grid;
   Block m_curBlock;
   Block m_forcastBlock;
