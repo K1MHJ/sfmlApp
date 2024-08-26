@@ -82,7 +82,7 @@ int main() {
     if (game.gameOver) {
       mvwprintw(win, 3, 30, "GAME OVER");
     }
-    if (EventTriggered(20)) {
+    if (EventTriggered(5)) {
       game.MoveBlockDown();
     }
     char scoreText[10];
