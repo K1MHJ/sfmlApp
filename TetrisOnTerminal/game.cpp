@@ -168,8 +168,7 @@ void Game::LockBlock() {
   nextBlock = GetRandomBlock();
   int rowsCleared = grid.ClearFullRows();
   if (rowsCleared > 0) {
-    // PlaySound(clearSound);
-    // UpdateScore(rowsCleared, 0);
+    UpdateScore(rowsCleared, 0);
   }
 }
 
@@ -193,20 +192,139 @@ void Game::Reset() {
 }
 
 void Game::UpdateScore(int linesCleared, int moveDownPoints) {
-  switch (linesCleared) {
-  case 1:
-    score += 100;
-    break;
-  case 2:
-    score += 300;
-    break;
-  case 3:
-    score += 500;
-    break;
-  default:
-    break;
-  }
-
-  score += moveDownPoints;
+  score += linesCleared;
 }
-void Game::AutoDecision() { MoveBlockRight(); }
+void Game::AutoDecision() {
+  std::vector<Block> bblk = GetBottomBlocks();
+  double max_score = -10000000000.0;
+  Block best_blk = currentBlock;
+  for (auto &b : bblk) {
+    Grid tmpGrid = grid;
+    std::vector<Position> tiles = b.GetCellPositions();
+    for (auto &t : tiles) {
+      tmpGrid.grid[t.row][t.column] = b.id;
+    }
+    double s = ScoreTotal(tmpGrid);
+    if (max_score < s) {
+      max_score = s;
+      best_blk = b;
+    }
+  }
+  if (best_blk.RotationState() != currentBlock.RotationState()) {
+    RotateBlock();
+  } else {
+    if (best_blk.ColumnOffset() != currentBlock.ColumnOffset()) {
+      if (best_blk.ColumnOffset() < currentBlock.ColumnOffset()) {
+        MoveBlockLeft();
+      } else {
+        MoveBlockRight();
+      }
+    }
+  }
+}
+
+double Game::ScoreTotal(const Grid &_grid) {
+  double a, b, c, d;
+  double s;
+  a = -0.510066;
+  b = 0.760666;
+  c = -0.35663;
+  d = -0.184483;
+  s = a * ScoreAggregateHeight(_grid);
+  s += b * ScoreCompleteLines(_grid);
+  s += c * ScoreHoles(_grid);
+  s += d * ScoreBumpiness(_grid);
+  return s;
+}
+int Game::ScoreAggregateHeight(const Grid &_grid) {
+  int total = 0;
+  for (int c = 0; c < _grid.Column(); c++) {
+    for (int r = 0; r < _grid.Row(); r++) {
+      if (!_grid.IsCellEmpty(r, c)) {
+        total += (_grid.Row() - r);
+        break;
+      }
+    }
+  }
+  return total;
+}
+int Game::ScoreCompleteLines(const Grid &_grid) {
+  int total = 0;
+  for (int r = 0; r < _grid.Row(); r++) {
+    bool complete = true;
+    for (int c = 0; c < _grid.Column(); c++) {
+      if (_grid.IsCellEmpty(r, c)) {
+        complete = false;
+        break;
+      }
+    }
+    if (complete) {
+      total++;
+    }
+  }
+  return total;
+}
+int Game::ScoreHoles(const Grid &_grid) {
+  int total = 0;
+  for (int c = 0; c < _grid.Column(); c++) {
+    for (int r = 0; r < _grid.Row(); r++) {
+      if (!_grid.IsCellEmpty(r, c)) {
+        for (int i = r + 1; i < _grid.Row(); i++) {
+          if (_grid.IsCellEmpty(i, c)) {
+            total++;
+          }
+        }
+      }
+    }
+  }
+  return total;
+}
+int Game::ScoreBumpiness(const Grid &_grid) {
+  int total = 0;
+  std::vector<int> height(0, _grid.Column());
+  for (int c = 0; c < _grid.Column(); c++) {
+    for (int r = 0; r < _grid.Row(); r++) {
+      if (!_grid.IsCellEmpty(r, c)) {
+        height[c] = _grid.Row() - r;
+        break;
+      }
+    }
+  }
+  for (int h = 1; h < height.size(); h++) {
+    total += abs(height[h - 1] - height[h]);
+  }
+  return total;
+}
+std::vector<Block> Game::GetBottomBlocks() {
+  std::vector<Block> bottom_blocks;
+  Block curblk = currentBlock;
+  Block blk = currentBlock;
+  int best_coloffset;
+  int best_rotate;
+  int MIN_EMPTY = grid.Column() * grid.Row();
+  for (int r = 0; r < blk.MaxRotationState(); ++r) {
+    currentBlock = blk;
+    int _r = r;
+    while (_r-- > 0) {
+      currentBlock.Rotate();
+    }
+    while (!(IsBlockOutside() || BlockFits() == false)) {
+      currentBlock.Move(0, -1);
+    }
+    Block tblk = currentBlock;
+    for (;;) {
+      tblk.Move(0, 1);
+      currentBlock = tblk;
+      if (IsBlockOutside() || BlockFits() == false) {
+        break;
+      }
+      while (!(IsBlockOutside() || BlockFits() == false)) {
+        currentBlock.Move(1, 0);
+      }
+      currentBlock.Move(-1, 0);
+      bottom_blocks.emplace_back(currentBlock);
+    }
+  }
+  currentBlock = curblk;
+  return bottom_blocks;
+}

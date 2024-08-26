@@ -60,8 +60,8 @@ int main() {
 
   wattron(win, COLOR(_WIN_BORDER));
   box(win, 0, 0);
-  //wmove(win, 2, 1); // set cursor
-  // whline(win, 'x', 10); // draw line from current cursor
+  // wmove(win, 2, 1); // set cursor
+  //  whline(win, 'x', 10); // draw line from current cursor
   wattroff(win, COLOR(_WIN_BORDER));
   noecho();    // 입력한 문자 화면에 출력하지 않음
   curs_set(0); // 커서 숨김
@@ -82,7 +82,7 @@ int main() {
     if (game.gameOver) {
       mvwprintw(win, 3, 30, "GAME OVER");
     }
-    if (EventTriggered(500)) {
+    if (EventTriggered(20)) {
       game.MoveBlockDown();
     }
     char scoreText[10];

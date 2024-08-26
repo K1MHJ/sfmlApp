@@ -29,4 +29,11 @@ private:
   Block currentBlock;
   Block nextBlock;
   void AutoDecision();
+
+  double ScoreTotal(const Grid &_grid);
+  int ScoreAggregateHeight(const Grid &_grid);
+  int ScoreCompleteLines(const Grid &_grid);
+  int ScoreHoles(const Grid &_grid);
+  int ScoreBumpiness(const Grid &_grid);
+  std::vector<Block> GetBottomBlocks();
 };
